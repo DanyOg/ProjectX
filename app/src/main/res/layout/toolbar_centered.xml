@@ -3,17 +3,22 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:minHeight="?attr/actionBarSize"
-    android:background="@color/cardview_dark_background"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    app:theme="@style/AppTheme.PopupOverlay"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Toolbar Title"
+        android:text="John Snow"
         android:layout_gravity="center"
-        android:id="@+id/toolbar_title" />
+        android:id="@+id/toolbar_title"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@android:color/white"
+        android:fontFamily="monospace"
+        android:textAllCaps="true" />
 
 
 </android.support.v7.widget.Toolbar>
