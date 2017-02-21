@@ -99,13 +99,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/rating_shape"
                 android:layout_weight="1">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textSize="15sp"
+                    android:textSize="17sp"
                     android:layout_gravity="center"
                     android:textColor="@android:color/black"
                     android:id="@+id/user_profile_records"/>
@@ -115,6 +114,7 @@
                     android:textColor="#696969"
                     android:textSize="12sp"
                     android:layout_gravity="center"
+                    android:textStyle="bold"
                     android:text="RECORDS"/>
             </LinearLayout>
 
@@ -122,13 +122,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/rating_shape"
             android:layout_weight="1">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textSize="15sp"
+                android:textSize="17sp"
                 android:layout_gravity="center"
                 android:textColor="@android:color/black"
                 android:id="@+id/user_profile_ratings"/>
@@ -138,19 +137,19 @@
                 android:textColor="#696969"
                 android:textSize="12sp"
                 android:layout_gravity="center"
+                android:textStyle="bold"
                 android:text="RATINGS"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/rating_shape"
                 android:layout_weight="1">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textSize="15sp"
+                    android:textSize="17sp"
                     android:layout_gravity="center"
                     android:textColor="@android:color/black"
                     android:id="@+id/user_profile_followers"/>
@@ -160,7 +159,44 @@
                     android:textColor="#696969"
                     android:textSize="12sp"
                     android:layout_gravity="center"
+                    android:textStyle="bold"
                     android:text="FOLLOWERS"/>
             </LinearLayout>
         </LinearLayout>
+
+    <com.ogaclejapan.smarttablayout.SmartTabLayout
+        android:id="@+id/viewpagertab"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:stl_indicatorAlwaysInCenter="false"
+        app:stl_indicatorWithoutPadding="false"
+        app:stl_indicatorInFront="false"
+        app:stl_indicatorInterpolation="smart"
+        app:stl_indicatorGravity="bottom"
+        app:stl_indicatorColor="#40C4FF"
+        app:stl_indicatorThickness="4dp"
+        app:stl_indicatorWidth="auto"
+        app:stl_indicatorCornerRadius="2dp"
+        app:stl_overlineColor="#4D000000"
+        app:stl_overlineThickness="0dp"
+        app:stl_underlineColor="#4D000000"
+        app:stl_underlineThickness="1dp"
+        app:stl_dividerColor="#4D000000"
+        app:stl_dividerThickness="1dp"
+        app:stl_defaultTabBackground="?attr/selectableItemBackground"
+        app:stl_defaultTabTextAllCaps="true"
+        app:stl_defaultTabTextColor="#FC000000"
+        app:stl_defaultTabTextSize="12sp"
+        app:stl_defaultTabTextHorizontalPadding="16dp"
+        app:stl_defaultTabTextMinWidth="0dp"
+        app:stl_distributeEvenly="false"
+        app:stl_clickable="true"
+        app:stl_titleOffset="24dp"
+        app:stl_drawDecorationAfterTab="false"  />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/viewpagertab" />
 </LinearLayout>
