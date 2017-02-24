@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
@@ -36,7 +37,6 @@
             android:id="@+id/profile_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="4dp"
             android:paddingBottom="24dp"
             android:layout_below="@+id/header"
             android:layout_alignParentLeft="true"
@@ -192,7 +192,8 @@
         app:stl_distributeEvenly="false"
         app:stl_clickable="true"
         app:stl_titleOffset="24dp"
-        app:stl_drawDecorationAfterTab="false"  />
+        app:stl_drawDecorationAfterTab="false"
+        android:addStatesFromChildren="false" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
