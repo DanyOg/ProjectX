@@ -1,0 +1,158 @@
+CREATE TABLE Albums
+(
+	Album_ID             TINYINT NOT NULL,
+	Album_Title          TEXT NULL,
+	Album_Year           TEXT NULL,
+	Artist_ID            TINYINT NULL
+);
+
+ALTER TABLE Albums
+ADD CONSTRAINT XPKAlbums PRIMARY KEY (Album_ID);
+
+CREATE TABLE Albums_songs
+(
+	Album_Songs_ID       TINYINT NOT NULL,
+	Album_ID             TINYINT NULL,
+	Song_ID              TINYINT NULL
+);
+
+ALTER TABLE Albums_songs
+ADD CONSTRAINT XPKAlbums_songs PRIMARY KEY (Album_Songs_ID);
+
+CREATE TABLE Artist
+(
+	Artist_ID            TINYINT NOT NULL,
+	Artist_Site_Url      TEXT NULL,
+	Person_ID            TINYINT NULL,
+	Artist_Name          TEXT NULL,
+	Country_ID           TINYINT NULL
+);
+
+ALTER TABLE Artist
+ADD CONSTRAINT XPKArtist PRIMARY KEY (Artist_ID);
+
+CREATE TABLE Artist_Genres
+(
+	Genres_ID            TINYINT NULL,
+	Artist_ID            TINYINT NULL,
+	Artist_Genres_ID     TINYINT NOT NULL
+);
+
+ALTER TABLE Artist_Genres
+ADD CONSTRAINT XPKArtist_Genres PRIMARY KEY (Artist_Genres_ID);
+
+CREATE TABLE Artist_Groups
+(
+	Artist_Groups_ID     TINYINT NOT NULL,
+	Artist_ID            TINYINT NULL,
+	Group_ID             TINYINT NULL
+);
+
+ALTER TABLE Artist_Groups
+ADD CONSTRAINT XPKArtist_Groups PRIMARY KEY (Artist_Groups_ID);
+
+CREATE TABLE Country
+(
+	Country_ID           TINYINT NOT NULL,
+	Country_Name         TEXT NULL
+);
+
+ALTER TABLE Country
+ADD CONSTRAINT XPKCountry PRIMARY KEY (Country_ID);
+
+CREATE TABLE Genres
+(
+	Genres_ID            TINYINT NOT NULL,
+	Genres_Name          TEXT NULL
+);
+
+ALTER TABLE Genres
+ADD CONSTRAINT XPKGenres PRIMARY KEY (Genres_ID);
+
+CREATE TABLE Groups
+(
+	Group_ID             TINYINT NOT NULL,
+	Group_Name           TEXT NULL
+);
+
+ALTER TABLE Groups
+ADD CONSTRAINT XPKGroups PRIMARY KEY (Group_ID);
+
+CREATE TABLE Person_Folowers
+(
+	Person_Folowers_ID   TINYINT NOT NULL,
+	Person_Folowers_List BLOB NULL,
+	Person_ID            TINYINT NULL
+);
+
+ALTER TABLE Person_Folowers
+ADD CONSTRAINT XPKPerson_Folowers PRIMARY KEY (Person_Folowers_ID);
+
+CREATE TABLE Person_Subscribe
+(
+	Person_Subscribe_ID  TINYINT NOT NULL,
+	Person_Subscribe_List BLOB NULL,
+	Person_ID            TINYINT NULL
+);
+
+ALTER TABLE Person_Subscribe
+ADD CONSTRAINT XPKPerson_Subscribe PRIMARY KEY (Person_Subscribe_ID);
+
+CREATE TABLE Persons
+(
+	Person_ID            TINYINT NOT NULL,
+	Person_LastName      TEXT NULL,
+	Person_FirstName     TEXT NULL,
+	Person_Email         TEXT NULL,
+	Person_Password      TEXT NULL,
+	Person_Login         TEXT NULL,
+	Person_Description   TEXT NULL
+);
+
+ALTER TABLE Persons
+ADD CONSTRAINT XPKPersons PRIMARY KEY (Person_ID);
+
+CREATE TABLE Songs
+(
+	Song_ID              TINYINT NOT NULL,
+	Song_Name            TEXT NULL,
+	Song_Description     TEXT NULL,
+	Song_Likes           TEXT NULL,
+	Song_Listen          TEXT NULL
+);
+
+ALTER TABLE Songs
+ADD CONSTRAINT XPKSongs PRIMARY KEY (Song_ID);
+
+ALTER TABLE Albums
+ADD CONSTRAINT R_9 FOREIGN KEY (Artist_ID) REFERENCES Artist (Artist_ID);
+
+ALTER TABLE Albums_songs
+ADD CONSTRAINT R_10 FOREIGN KEY (Album_ID) REFERENCES Albums (Album_ID);
+
+ALTER TABLE Albums_songs
+ADD CONSTRAINT R_11 FOREIGN KEY (Song_ID) REFERENCES Songs (Song_ID);
+
+ALTER TABLE Artist
+ADD CONSTRAINT R_3 FOREIGN KEY (Person_ID) REFERENCES Persons (Person_ID);
+
+ALTER TABLE Artist
+ADD CONSTRAINT R_8 FOREIGN KEY (Country_ID) REFERENCES Country (Country_ID);
+
+ALTER TABLE Artist_Genres
+ADD CONSTRAINT R_6 FOREIGN KEY (Genres_ID) REFERENCES Genres (Genres_ID);
+
+ALTER TABLE Artist_Genres
+ADD CONSTRAINT R_7 FOREIGN KEY (Artist_ID) REFERENCES Artist (Artist_ID);
+
+ALTER TABLE Artist_Groups
+ADD CONSTRAINT R_4 FOREIGN KEY (Artist_ID) REFERENCES Artist (Artist_ID);
+
+ALTER TABLE Artist_Groups
+ADD CONSTRAINT R_5 FOREIGN KEY (Group_ID) REFERENCES Groups (Group_ID);
+
+ALTER TABLE Person_Folowers
+ADD CONSTRAINT R_2 FOREIGN KEY (Person_ID) REFERENCES Persons (Person_ID);
+
+ALTER TABLE Person_Subscribe
+ADD CONSTRAINT R_1 FOREIGN KEY (Person_ID) REFERENCES Persons (Person_ID);
