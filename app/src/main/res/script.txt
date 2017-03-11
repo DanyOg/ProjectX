@@ -1,9 +1,9 @@
 CREATE TABLE Albums
 (
-	Album_ID             TINYINT NOT NULL,
+	Album_ID             INT NOT NULL AUTO_INCRREMENT,
 	Album_Title          TEXT NULL,
-	Album_Year           TEXT NULL,
-	Artist_ID            TINYINT NULL
+	Album_Year           INT NOT NULL,
+	Artist_ID            INT NULL
 );
 
 ALTER TABLE Albums
@@ -11,9 +11,9 @@ ADD CONSTRAINT XPKAlbums PRIMARY KEY (Album_ID);
 
 CREATE TABLE Albums_songs
 (
-	Album_Songs_ID       TINYINT NOT NULL,
-	Album_ID             TINYINT NULL,
-	Song_ID              TINYINT NULL
+	Album_Songs_ID       INT NOT NULL AUTO_INCRREMENT,
+	Album_ID             INT NULL,
+	Song_ID              INT NULL
 );
 
 ALTER TABLE Albums_songs
@@ -21,11 +21,11 @@ ADD CONSTRAINT XPKAlbums_songs PRIMARY KEY (Album_Songs_ID);
 
 CREATE TABLE Artist
 (
-	Artist_ID            TINYINT NOT NULL,
+	Artist_ID            INT NOT NULL AUTO_INCRREMENT,
 	Artist_Site_Url      TEXT NULL,
-	Person_ID            TINYINT NULL,
+	Person_ID            INT NULL,
 	Artist_Name          TEXT NULL,
-	Country_ID           TINYINT NULL
+	Country_ID           INT NULL
 );
 
 ALTER TABLE Artist
@@ -33,9 +33,9 @@ ADD CONSTRAINT XPKArtist PRIMARY KEY (Artist_ID);
 
 CREATE TABLE Artist_Genres
 (
-	Genres_ID            TINYINT NULL,
-	Artist_ID            TINYINT NULL,
-	Artist_Genres_ID     TINYINT NOT NULL
+	Genres_ID            INT NULL,
+	Artist_ID            INT NULL,
+	Artist_Genres_ID     INT NOT NULL AUTO_INCRREMENT
 );
 
 ALTER TABLE Artist_Genres
@@ -43,9 +43,9 @@ ADD CONSTRAINT XPKArtist_Genres PRIMARY KEY (Artist_Genres_ID);
 
 CREATE TABLE Artist_Groups
 (
-	Artist_Groups_ID     TINYINT NOT NULL,
-	Artist_ID            TINYINT NULL,
-	Group_ID             TINYINT NULL
+	Artist_Groups_ID     INT NOT NULL AUTO_INCRREMENT,
+	Artist_ID            INT NULL,
+	Group_ID             INT NULL
 );
 
 ALTER TABLE Artist_Groups
@@ -53,7 +53,7 @@ ADD CONSTRAINT XPKArtist_Groups PRIMARY KEY (Artist_Groups_ID);
 
 CREATE TABLE Country
 (
-	Country_ID           TINYINT NOT NULL,
+	Country_ID           INT NOT NULL AUTO_INCRREMENT,
 	Country_Name         TEXT NULL
 );
 
@@ -62,7 +62,7 @@ ADD CONSTRAINT XPKCountry PRIMARY KEY (Country_ID);
 
 CREATE TABLE Genres
 (
-	Genres_ID            TINYINT NOT NULL,
+	Genres_ID            INT NOT NULL AUTO_INCRREMENT,
 	Genres_Name          TEXT NULL
 );
 
@@ -71,7 +71,7 @@ ADD CONSTRAINT XPKGenres PRIMARY KEY (Genres_ID);
 
 CREATE TABLE Groups
 (
-	Group_ID             TINYINT NOT NULL,
+	Group_ID             INT NOT NULL AUTO_INCRREMENT,
 	Group_Name           TEXT NULL
 );
 
@@ -80,9 +80,9 @@ ADD CONSTRAINT XPKGroups PRIMARY KEY (Group_ID);
 
 CREATE TABLE Person_Folowers
 (
-	Person_Folowers_ID   TINYINT NOT NULL,
+	Person_Folowers_ID   INT NOT NULL AUTO_INCRREMENT,
 	Person_Folowers_List BLOB NULL,
-	Person_ID            TINYINT NULL
+	Person_ID            INT NULL
 );
 
 ALTER TABLE Person_Folowers
@@ -90,9 +90,9 @@ ADD CONSTRAINT XPKPerson_Folowers PRIMARY KEY (Person_Folowers_ID);
 
 CREATE TABLE Person_Subscribe
 (
-	Person_Subscribe_ID  TINYINT NOT NULL,
+	Person_Subscribe_ID  INT NOT NULL AUTO_INCRREMENT,
 	Person_Subscribe_List BLOB NULL,
-	Person_ID            TINYINT NULL
+	Person_ID            INT NULL
 );
 
 ALTER TABLE Person_Subscribe
@@ -100,7 +100,7 @@ ADD CONSTRAINT XPKPerson_Subscribe PRIMARY KEY (Person_Subscribe_ID);
 
 CREATE TABLE Persons
 (
-	Person_ID            TINYINT NOT NULL,
+	Person_ID            INT NOT NULL AUTO_INCRREMENT,
 	Person_LastName      TEXT NULL,
 	Person_FirstName     TEXT NULL,
 	Person_Email         TEXT NULL,
@@ -114,7 +114,7 @@ ADD CONSTRAINT XPKPersons PRIMARY KEY (Person_ID);
 
 CREATE TABLE Songs
 (
-	Song_ID              TINYINT NOT NULL,
+	Song_ID              INT NOT NULL AUTO_INCRREMENT,
 	Song_Name            TEXT NULL,
 	Song_Description     TEXT NULL,
 	Song_Likes           TEXT NULL,
@@ -156,3 +156,51 @@ ADD CONSTRAINT R_2 FOREIGN KEY (Person_ID) REFERENCES Persons (Person_ID);
 
 ALTER TABLE Person_Subscribe
 ADD CONSTRAINT R_1 FOREIGN KEY (Person_ID) REFERENCES Persons (Person_ID);
+
+
+use focus777;
+
+
+CREATE TABLE `log` (
+`id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`msg` VARCHAR( 255 ) NOT NULL,
+`time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`row_id` INT( 11 ) NOT NULL
+);
+
+
+CREATE TRIGGER `insert_logged_Person` AFTER INSERT ON `Persons`
+FOR EACH ROW BEGIN
+   INSERT INTO log Set msg = 'insert', row_id = NEW.id;
+END;
+
+CREATE TRIGGER `update_logged_Person` AFTER UPDATE ON `Persons`
+FOR EACH ROW BEGIN
+   INSERT INTO log Set msg = 'update', row_id = NEW.id;
+END;
+
+CREATE TRIGGER `delete_logged_Person` AFTER DELETE ON `Persons`
+FOR EACH ROW BEGIN
+   INSERT INTO log Set msg = 'delete', row_id = NEW.id;
+END;
+
+CREATE TRIGGER `checkEmail` AFTER INSERT ON `Persons`
+FOR EACH ROW BEGIN
+IF (NEW.Person_Email NOT LIKE "%@%")
+   DELETE FROM `Persons` WHERE Person_ID = NEW.Person_ID;
+END IF;
+END;
+
+
+CREATE TRIGGER `checkPersonID` AFTER INSERT ON `Persons`
+FOR EACH ROW BEGIN
+IF (NEW.Person_ID <= 0)
+   DELETE FROM `Persons` WHERE Person_ID = NEW.Person_ID;
+END IF;
+END;
+
+CREATE TRIGGER `convertPassword` BEFORE INSERT ON `Persons`
+FOR EACH ROW
+BEGIN
+SET NEW.Person_Password = md5(NEW.Person_Password);
+END
