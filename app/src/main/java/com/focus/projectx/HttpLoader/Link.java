@@ -13,7 +13,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
- * Created by Focus on 26.02.2017.
+ * Created by Focus on 10.03.2017.
  */
 
 public interface Link {
@@ -23,4 +23,8 @@ public interface Link {
                                                 @Query("mail") String mail,
                                                 @Query("password") String password,
                                                 @Query("description") String description);
+
+    @POST("/login.php")
+    Call<RegisterRequestStatus> login(@Query("mail") String userName,
+                                      @Query("password") String mail);
 }

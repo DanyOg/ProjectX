@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Focus on 26.02.2017.
+ * Created by Focus on 10.03.2017.
  */
 
 public class RegisterRequestStatus {
