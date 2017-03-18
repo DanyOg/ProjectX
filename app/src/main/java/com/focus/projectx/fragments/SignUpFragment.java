@@ -3,7 +3,9 @@ package com.focus.projectx.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.focus.projectx.HttpLoader.Link;
 import com.focus.projectx.HttpLoader.RetroClient;
@@ -41,13 +44,20 @@ public class SignUpFragment extends Fragment {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_signup, container, false);
 
         link = RetroClient.getApiService();
-
+        LinearLayout layout =(LinearLayout)view.findViewById(R.id.back_color);
+        final int sdk = android.os.Build.VERSION.SDK_INT;
+        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            layout.setBackgroundDrawable( getResources().getDrawable(R.drawable.reg_background) );
+        } else {
+            layout.setBackground( getResources().getDrawable(R.drawable.reg_background));
+        }
         regName = (EditText) view.findViewById(R.id.registerName);
         regMail = (EditText) view.findViewById(R.id.registerMail);
         regPass = (EditText) view.findViewById(R.id.registerPassword);
@@ -77,7 +87,7 @@ public class SignUpFragment extends Fragment {
             public void onResponse(Call<RegisterRequestStatus> call, Response<RegisterRequestStatus> response) {
                 dialog.dismiss();
                 RegisterRequestStatus registerRequestStatus = response.body();
-                Log.d("Log", registerRequestStatus.getStatusMessage());
+              /*  Log.d("Log", registerRequestStatus.getStatusMessage());
                 if(registerRequestStatus.getStatusMessage().equals("User created")){
                     UserInfoActivity userInfoActivity = new UserInfoActivity();
 
@@ -86,7 +96,7 @@ public class SignUpFragment extends Fragment {
                     intent.putExtra("desc", desc);
 
                     startActivity(intent);
-                }
+                }*/
             }
 
             @Override
