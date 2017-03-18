@@ -8,6 +8,7 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -23,8 +24,8 @@ public interface Link {
                                                 @Query("mail") String mail,
                                                 @Query("password") String password,
                                                 @Query("description") String description);
-
-    @POST("/login.php")
-    Call<RegisterRequestStatus> login(@Query("mail") String userName,
-                                      @Query("password") String mail);
+    @FormUrlEncoded
+    @POST("method/users/login")
+    Call<RegisterRequestStatus> login(@Field("email") String email,
+                                      @Field("password") String password);
 }
