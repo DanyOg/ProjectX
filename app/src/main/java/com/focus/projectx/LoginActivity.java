@@ -12,8 +12,7 @@ import android.view.View;
 import com.focus.projectx.fragments.SignInFragment;
 import com.focus.projectx.fragments.SignUpDetalFragment;
 import com.focus.projectx.fragments.SignUpFragment;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;

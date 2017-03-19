@@ -6,5 +6,6 @@
 
     <color name="user_info_btn">#8133ab</color>
 
-
+    <color name="primary">#785447</color>
+    <color name="primaryDark">#5B3F36</color>
 </resources>

@@ -2,6 +2,7 @@ package com.focus.projectx.HttpLoader;
 
 import com.focus.projectx.model.RegisterData;
 import com.focus.projectx.model.RegisterRequestStatus;
+import com.focus.projectx.model.UserModel;
 
 import java.util.Objects;
 
@@ -26,6 +27,6 @@ public interface Link {
                                                 @Query("description") String description);
     @FormUrlEncoded
     @POST("method/users/login")
-    Call<RegisterRequestStatus> login(@Field("email") String email,
-                                      @Field("password") String password);
+    Call<UserModel> login(@Field("email") String email,
+                          @Field("password") String password);
 }

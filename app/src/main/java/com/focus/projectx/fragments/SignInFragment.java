@@ -2,7 +2,9 @@ package com.focus.projectx.fragments;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.focus.projectx.HttpLoader.Link;
 import com.focus.projectx.HttpLoader.RetroClient;
@@ -21,6 +24,7 @@ import com.focus.projectx.MainActivity;
 import com.focus.projectx.R;
 import com.focus.projectx.UserInfoActivity;
 import com.focus.projectx.model.RegisterRequestStatus;
+import com.focus.projectx.model.UserModel;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,10 +36,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.focus.projectx.UserInfoActivity.APP_PREFERENCES;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SignInFragment extends Fragment {
+    public static final String PUBLIC_TOKEN_KEY = "user_token_key";
     private Link link;
     private ProgressDialog dialog;
 
@@ -53,7 +60,12 @@ public class SignInFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_signin, container, false);
         unbinder = ButterKnife.bind(this, view);
+        Log.d("sharedToken", getSavedToken());
 
+        if(!getSavedToken().equals("logout")){
+            Intent intent = new Intent(getContext(), UserInfoActivity.class);
+            startActivity(intent);
+        }
         link = RetroClient.getApiService();
 
         signInBtn = (Button) view.findViewById(R.id.button_SignIn);
@@ -85,24 +97,26 @@ public class SignInFragment extends Fragment {
     }
 
     private void Login(String mail, String password){
-        Call<RegisterRequestStatus> call = link.login(mail, password);
-        call.enqueue(new Callback<RegisterRequestStatus>() {
+        Call<UserModel> call = link.login(mail, password);
+        call.enqueue(new Callback<UserModel>() {
             @Override
-            public void onResponse(Call<RegisterRequestStatus> call, Response<RegisterRequestStatus> response) {
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 dialog.dismiss();
-                RegisterRequestStatus registerRequestStatus = response.body();
-                Log.d("Log", registerRequestStatus.getToken());
-                Log.d("Log", response.toString());
-              if(registerRequestStatus.getStatusMessage().equals("invalid_credentials")){
-                    Intent intent = new Intent(getContext(), UserInfoActivity.class);
-                    intent.putExtra("name", "Svyatoslav");
-                    intent.putExtra("desc", "dsdsd");
-                    startActivity(intent);
-                }
+                UserModel userModel = response.body();
+              try {
+                  if (userModel.getToken() != null) {
+                      saveToken(userModel.getToken());
+                      Intent intent = new Intent(getContext(), UserInfoActivity.class);
+                      intent.putExtra(UserModel.class.getCanonicalName(), userModel);
+                      startActivity(intent);
+                  }
+              } catch (Exception ex){
+                  Toast.makeText(getContext(),"Error sign in please check your mail and password",Toast.LENGTH_SHORT).show();
+              }
             }
 
             @Override
-            public void onFailure(Call<RegisterRequestStatus> call, Throwable t) {
+            public void onFailure(Call<UserModel> call, Throwable t) {
                 dialog.dismiss();
             }
         });
@@ -117,12 +131,24 @@ public class SignInFragment extends Fragment {
                 .commit();
     }
 
-    public boolean validateEmail(String email) {
+    private boolean validateEmail(String email) {
         matcher = pattern.matcher(email);
         return matcher.matches();
     }
 
-    public boolean validatePassword(String password) {
+    private boolean validatePassword(String password) {
         return password.length() > 5;
+    }
+
+    private void saveToken(String token){
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(APP_PREFERENCES,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(PUBLIC_TOKEN_KEY, token);
+        editor.apply();
+    }
+
+    private String getSavedToken(){
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(APP_PREFERENCES,Context.MODE_PRIVATE);
+        return sharedPref.getString(PUBLIC_TOKEN_KEY, "logout");
     }
 }
