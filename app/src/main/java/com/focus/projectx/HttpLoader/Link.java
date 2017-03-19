@@ -1,9 +1,11 @@
 package com.focus.projectx.HttpLoader;
 
+import com.focus.projectx.model.AllUserModel;
 import com.focus.projectx.model.RegisterData;
 import com.focus.projectx.model.RegisterRequestStatus;
 import com.focus.projectx.model.UserModel;
 
+import java.util.Map;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -11,6 +13,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -29,4 +32,7 @@ public interface Link {
     @POST("method/users/login")
     Call<UserModel> login(@Field("email") String email,
                           @Field("password") String password);
+
+    @GET("method/users")
+    Call<AllUserModel> getAllUser(@HeaderMap Map<String, String> headers);
 }

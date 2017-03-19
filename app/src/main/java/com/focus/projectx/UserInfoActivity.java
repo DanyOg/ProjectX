@@ -1,6 +1,7 @@
 package com.focus.projectx;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -172,8 +173,13 @@ public class UserInfoActivity extends AppCompatActivity   implements AppBarLayou
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         Toast.makeText(getApplicationContext(), position+"", Toast.LENGTH_SHORT).show();
                         switch (position){
-                            case 2 :{
+                            case 2 : {
                                 logOut();
+                                break;
+                            }
+                            case 3 : {
+                                Intent intent = new Intent(getApplication(), AllUserActivity.class);
+                                startActivity(intent);
                                 break;
                             }
                         }
