@@ -4,6 +4,7 @@ package com.focus.projectx.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,6 +22,9 @@ import com.focus.projectx.R;
 import com.focus.projectx.UserInfoActivity;
 import com.focus.projectx.model.RegisterRequestStatus;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -35,12 +39,14 @@ public class SignInFragment extends Fragment {
     private Link link;
     private ProgressDialog dialog;
 
-    private EditText mail;
-    private EditText password;
     private Button signInBtn;
     private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
     private Unbinder unbinder;
+    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9#_~!$&'()*+,;=:.\"(),:;<>@\\[\\]\\\\]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
+    private Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+    private Matcher matcher;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,15 +56,23 @@ public class SignInFragment extends Fragment {
 
         link = RetroClient.getApiService();
 
-        mail = (EditText) view.findViewById(R.id.user_mail);
-        password = (EditText) view.findViewById(R.id.user_password);
         signInBtn = (Button) view.findViewById(R.id.button_SignIn);
+        final TextInputLayout usernameWrapper = (TextInputLayout) view.findViewById(R.id.logMail);
+        final TextInputLayout passwordWrapper = (TextInputLayout) view.findViewById(R.id.logPass);
 
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog = ProgressDialog.show(view.getContext(), "", "loading...");
-                Login(mail.getText().toString(), password.getText().toString());
+                if (!validateEmail(usernameWrapper.getEditText().getText().toString())) {
+                    usernameWrapper.setError("Not a valid email address!");
+                } else if (!validatePassword(passwordWrapper.getEditText().getText().toString())) {
+                    passwordWrapper.setError("Not a valid password!");
+                } else {
+                    dialog = ProgressDialog.show(view.getContext(), "", "loading...");
+                    usernameWrapper.setErrorEnabled(false);
+                    passwordWrapper.setErrorEnabled(false);
+                    Login(usernameWrapper.getEditText().getText().toString(), passwordWrapper.getEditText().getText().toString());
+                }
             }
         });
 
@@ -101,5 +115,14 @@ public class SignInFragment extends Fragment {
         mFragmentTransaction.replace(R.id.containerView, new SignUpFragment())
                 .addToBackStack(null)
                 .commit();
+    }
+
+    public boolean validateEmail(String email) {
+        matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    public boolean validatePassword(String password) {
+        return password.length() > 5;
     }
 }
