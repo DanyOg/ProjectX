@@ -25,6 +25,7 @@ import com.focus.projectx.R;
 import com.focus.projectx.UserInfoActivity;
 import com.focus.projectx.model.RegisterRequestStatus;
 import com.focus.projectx.model.UserModel;
+import com.google.gson.Gson;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,29 +37,29 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.focus.projectx.UserInfoActivity.APP_PREFERENCES;
+import static com.focus.projectx.helpers.Urls.APP_PREFERENCES;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SignInFragment extends Fragment {
     public static final String PUBLIC_TOKEN_KEY = "user_token_key";
-    private Link link;
-    private ProgressDialog dialog;
+    private static final String EMAIL_PATTERN   = "^[a-zA-Z0-9#_~!$&'()*+,;=:.\"(),:;<>@\\[\\]\\\\]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
 
-    private Button signInBtn;
-    private FragmentManager mFragmentManager;
     private FragmentTransaction mFragmentTransaction;
-    private Unbinder unbinder;
-    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9#_~!$&'()*+,;=:.\"(),:;<>@\\[\\]\\\\]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
-    private Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-    private Matcher matcher;
-
+    private Button              signInBtn;
+    private FragmentManager     mFragmentManager;
+    private Unbinder            unbinder;
+    private Pattern             pattern = Pattern.compile(EMAIL_PATTERN);
+    private Matcher             matcher;
+    private ProgressDialog      dialog;
+    private Link                link;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_signin, container, false);
+
         unbinder = ButterKnife.bind(this, view);
         Log.d("sharedToken", getSavedToken());
 
@@ -66,11 +67,11 @@ public class SignInFragment extends Fragment {
             Intent intent = new Intent(getContext(), UserInfoActivity.class);
             startActivity(intent);
         }
-        link = RetroClient.getApiService();
-
-        signInBtn = (Button) view.findViewById(R.id.button_SignIn);
         final TextInputLayout usernameWrapper = (TextInputLayout) view.findViewById(R.id.logMail);
         final TextInputLayout passwordWrapper = (TextInputLayout) view.findViewById(R.id.logPass);
+
+        signInBtn = (Button) view.findViewById(R.id.button_SignIn);
+        link      = RetroClient.getApiService();
 
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,8 +107,11 @@ public class SignInFragment extends Fragment {
               try {
                   if (userModel.getToken() != null) {
                       saveToken(userModel.getToken());
-                      Intent intent = new Intent(getContext(), UserInfoActivity.class);
-                      intent.putExtra(UserModel.class.getCanonicalName(), userModel);
+                      String json = new Gson().toJson(userModel);
+                      Log.d("jsoon",json);
+                      Log.d("user", userModel.getUser().getPersonAvatar() + userModel.getUser().getPersonFirstName());
+                      Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                      intent.putExtra("Edit", userModel);
                       startActivity(intent);
                   }
               } catch (Exception ex){

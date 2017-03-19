@@ -34,17 +34,16 @@ public class UserInfoModel implements Parcelable{
     private String personAvatar;
     @SerializedName("followers_list")
     @Expose
-    private List<FollowersList> followersList = null;
+    private List<FollowersList> followersList = new ArrayList<FollowersList>();
 
     protected UserInfoModel(Parcel in) {
-        followersList = new ArrayList<FollowersList>();
-        personID = in.readInt();
-        personLastName = in.readString();
-        personFirstName = in.readString();
-        personLogin = in.readString();
+        personID          = in.readInt();
+        personLastName    = in.readString();
+        personFirstName   = in.readString();
+        personLogin       = in.readString();
         personDescription = in.readString();
-        personAvatar = in.readString();
-        in.readTypedList(followersList,FollowersList.CREATOR);
+        personAvatar      = in.readString();
+        in.readList(followersList,null);
     }
 
     public static final Creator<UserInfoModel> CREATOR = new Creator<UserInfoModel>() {

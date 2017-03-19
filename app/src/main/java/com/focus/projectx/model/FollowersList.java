@@ -31,12 +31,12 @@ public class FollowersList implements Parcelable {
     private String personAvatar;
 
     protected FollowersList(Parcel in) {
-        personID = in.readInt();
-        personLastName = in.readString();
-        personFirstName = in.readString();
-        personLogin = in.readString();
-        personDescription = in.readString();
-        personAvatar = in.readString();
+        personID           = in.readInt();
+        personLastName     = in.readString();
+        personFirstName    = in.readString();
+        personLogin        = in.readString();
+        personDescription  = in.readString();
+        personAvatar       = in.readString();
     }
 
     public static final Creator<FollowersList> CREATOR = new Creator<FollowersList>() {

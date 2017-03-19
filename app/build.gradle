@@ -54,5 +54,7 @@ dependencies {
     compile('com.mikepenz:materialdrawer:5.8.2@aar') {
         transitive = true
     }
+    compile 'com.squareup.picasso:picasso:2.5.0'
+
     testCompile 'junit:junit:4.12'
 }

@@ -3,7 +3,6 @@ package com.focus.projectx.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.focus.projectx.UserInfoActivity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -19,10 +18,12 @@ public class UserModel implements Parcelable {
     @Expose
     private String token;
 
-    private UserModel(Parcel in) {
-        token = in.readString();
-        user = UserInfoModel.CREATOR.createFromParcel(in);
+    public UserModel(Parcel in) {
+        token  = in.readString();
+        user   = (UserInfoModel) in.readParcelable(UserInfoModel.class.getClassLoader());
     }
+
+    public UserModel(){}
 
     public static final Creator<UserModel> CREATOR = new Creator<UserModel>() {
         @Override
@@ -62,6 +63,4 @@ public class UserModel implements Parcelable {
         dest.writeString(token);
         dest.writeParcelable(user, flags);
     }
-
-
 }
