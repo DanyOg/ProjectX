@@ -1,0 +1,95 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context="com.focus.projectx.MusicPlayerActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/music"
+            android:paddingTop="20dp"
+            android:id="@+id/imageView"
+            android:scaleType="fitStart"
+            android:layout_marginBottom="35dp" />
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:layout_marginLeft="25dp"
+            android:id="@+id/seekBar"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_backward"
+                android:id="@+id/imageButton"
+                android:background="#ffffff"/>
+            <ToggleButton
+                android:text="ToggleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/toggleButton"
+                android:background="@drawable/check"
+                android:textOn=""
+                android:textOff=""
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:onClick="onToggleButtonClick" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_forward"
+                android:id="@+id/imageButton2"
+                android:background="#ffffff"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <ToggleButton
+            android:text="@string/togglebutton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toggleButton3"
+            android:background="@drawable/ic_random"
+            android:textOn=""
+            android:textOff="" />
+
+        <ToggleButton
+            android:text="@string/togglebutton4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toggleButton5"
+            android:background="@drawable/ic_share_alt"
+            android:textOn=""
+            android:textOff=""
+            android:onClick="onToggleButtonClick"/>
+
+        <ToggleButton
+            android:text="@string/togglebutton5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/toggleButton4"
+            android:background="@drawable/ic_heart_o"
+            android:textOn=""
+            android:textOff=""
+            android:onClick="onToggleButtonClick"/>
+    </LinearLayout>
+
+</RelativeLayout>
