@@ -12,11 +12,13 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             app:srcCompat="@drawable/music"
             android:paddingTop="20dp"
             android:id="@+id/imageView"
-            android:scaleType="fitStart"
+            android:scaleType="centerInside"
+            android:foregroundGravity="center"
+            android:layout_gravity="center"
             android:layout_marginBottom="35dp" />
         <SeekBar
             android:layout_width="match_parent"
@@ -36,7 +38,7 @@
                 android:id="@+id/imageButton"
                 android:background="#ffffff"/>
             <ToggleButton
-                android:text="ToggleButton"
+                android:text="@string/togglebutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/toggleButton"
@@ -62,33 +64,24 @@
         android:layout_gravity="bottom"
         android:orientation="horizontal">
 
-        <ToggleButton
-            android:text="@string/togglebutton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:id="@+id/toggleButton3"
-            android:background="@drawable/ic_random"
-            android:textOn=""
-            android:textOff="" />
+            android:background="@drawable/ic_random"/>
 
-        <ToggleButton
-            android:text="@string/togglebutton4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:id="@+id/toggleButton5"
             android:background="@drawable/ic_share_alt"
-            android:textOn=""
-            android:textOff=""
             android:onClick="onToggleButtonClick"/>
 
-        <ToggleButton
-            android:text="@string/togglebutton5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:id="@+id/toggleButton4"
             android:background="@drawable/ic_heart_o"
-            android:textOn=""
-            android:textOff=""
             android:onClick="onToggleButtonClick"/>
     </LinearLayout>
 
