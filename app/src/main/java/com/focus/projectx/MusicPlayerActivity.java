@@ -141,7 +141,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements Runnable{
 
 
             }
-        });
+        });//
 /*
         toogleButton2.setOnClickListener(new View.OnClickListener() {
             @Override
