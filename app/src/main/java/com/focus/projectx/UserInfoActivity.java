@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.focus.projectx.fragments.TopFragment;
 import com.focus.projectx.fragments.TrackFragment;
 import com.focus.projectx.model.UserModel;
-import com.google.common.util.concurrent.ExecutionError;
 import com.google.gson.Gson;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -30,7 +29,6 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.squareup.picasso.Picasso;
 
-import org.antlr.v4.Tool;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -166,7 +164,8 @@ public class UserInfoActivity extends AppCompatActivity   implements AppBarLayou
                         item1,
                         new DividerDrawerItem(),
                         item2,
-                        new SecondaryDrawerItem().withName("Log out").withIdentifier(3)
+                        new SecondaryDrawerItem().withName("Log out").withIdentifier(3),
+                        new SecondaryDrawerItem().withName("Player").withIdentifier(4)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -174,11 +173,16 @@ public class UserInfoActivity extends AppCompatActivity   implements AppBarLayou
                         Toast.makeText(getApplicationContext(), position+"", Toast.LENGTH_SHORT).show();
                         switch (position){
                             case 2 : {
-                                logOut();
+                                Intent intent = new Intent(getApplication(), AllUserActivity.class);
+                                startActivity(intent);
                                 break;
                             }
                             case 3 : {
-                                Intent intent = new Intent(getApplication(), AllUserActivity.class);
+                                logOut();
+                                break;
+                            }
+                            case 4 : {
+                                Intent intent = new Intent(getApplication(), MusicPlayerActivity.class);
                                 startActivity(intent);
                                 break;
                             }
