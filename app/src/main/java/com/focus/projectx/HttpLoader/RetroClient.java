@@ -5,11 +5,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by Focus on 26.02.2017.
+ * Created by Focus on 10.03.2017.
  */
 
 public class RetroClient {
-    private static final String BASE_URL = "http://focus.zzz.com.ua";
+    private static final String BASE_URL = "http://api.focus.zzz.com.ua/";
 
     private static Retrofit getRetrofitInstance(){
         return new Retrofit.Builder()

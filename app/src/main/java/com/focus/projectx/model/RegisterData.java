@@ -1,7 +1,7 @@
 package com.focus.projectx.model;
 
 /**
- * Created by Focus on 26.02.2017.
+ * Created by Focus on 10.03.2017.
  */
 
 public class RegisterData {

@@ -4,28 +4,24 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Focus on 26.02.2017.
+ * Created by Focus on 10.03.2017.
  */
 
 public class RegisterRequestStatus {
-    @SerializedName("status")
+    @SerializedName("token")
     @Expose
-    private String status;
+    private String token;
 
-    @SerializedName("status_message")
+    @SerializedName("error")
     @Expose
     private String statusMessage;
 
-    @SerializedName("data")
-    @Expose
-    private String data;
-
-    public String getStatus() {
-        return status;
+    public String getToken() {
+        return token;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getStatusMessage() {
@@ -34,13 +30,5 @@ public class RegisterRequestStatus {
 
     public void setStatusMessage(String statusMessage) {
         this.statusMessage = statusMessage;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
     }
 }

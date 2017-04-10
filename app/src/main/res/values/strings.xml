@@ -6,7 +6,8 @@
 
     <string name="top_track">Top 100</string>
     <string name="track">Track</string>
-    <string name="sign_in" > Sign In </string>
-    <string name="sign_up" > Sign Up </string>
+    <string name="sign_in"> Sign In </string>
+    <string name="sign_up"> Sign Up </string>
     <string name="sign_in_button">SIGN IN</string>
+    <string name="togglebutton">ToggleButton</string>
 </resources>
