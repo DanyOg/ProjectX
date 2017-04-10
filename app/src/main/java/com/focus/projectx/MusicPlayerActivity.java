@@ -115,7 +115,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements Runnable{
             }
         });
 
-
+//next
         imageButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
