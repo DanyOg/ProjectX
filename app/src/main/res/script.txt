@@ -210,3 +210,4 @@ CREATE VIEW FeedSoungsView AS
 SELECT Song_ID, Song_Likes, Song_Name, Song_Listen, art.Artist_Name ,pl.Person_Login
 FROM Songs s, Albums_Songs as, Albums a, Artist
 WHERE Albums_Songs > (SELECT AVG(Song_Likes) FROM Songs)
+
