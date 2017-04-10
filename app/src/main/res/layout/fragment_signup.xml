@@ -60,7 +60,45 @@
                             android:layout_height="wrap_content"
                             android:inputType="textPersonName"
                             android:id="@+id/registerName"
-                            android:hint="User Name"
+                            android:hint="First Name"
+                            android:maxLines="1"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:textColor="@android:color/white"
+                            android:textColorLink="?attr/actionModeSplitBackground"
+                            app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
+                            android:textColorHint="#c1c2c4"
+                            android:paddingTop="5dp" />
+                    </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="#c1c2c4">
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:id="@+id/registerLastName"
+                            android:hint="Last Name"
+                            android:maxLines="1"
+                            android:layout_marginLeft="25dp"
+                            android:layout_marginRight="25dp"
+                            android:textColor="@android:color/white"
+                            android:textColorLink="?attr/actionModeSplitBackground"
+                            app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout"
+                            android:textColorHint="#c1c2c4"
+                            android:paddingTop="5dp" />
+                    </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="#c1c2c4">
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:id="@+id/registerLogin"
+                            android:hint="Login"
                             android:maxLines="1"
                             android:layout_marginLeft="25dp"
                             android:layout_marginRight="25dp"
@@ -75,6 +113,7 @@
                         android:layout_height="wrap_content"
                         android:textColorHint="#c1c2c4"
                         android:paddingTop="15dp">
+
                         <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

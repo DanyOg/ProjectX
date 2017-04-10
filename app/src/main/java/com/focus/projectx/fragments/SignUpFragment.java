@@ -3,6 +3,7 @@ package com.focus.projectx.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -20,7 +21,14 @@ import com.focus.projectx.HttpLoader.RetroClient;
 import com.focus.projectx.R;
 import com.focus.projectx.UserInfoActivity;
 import com.focus.projectx.model.RegisterRequestStatus;
+import com.focus.projectx.model.UserModel;
 
+import java.io.File;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,7 +44,9 @@ public class SignUpFragment extends Fragment {
     private EditText regMail;
     private EditText regPass;
     private EditText regDesc;
-
+    private EditText regLastName;
+    private EditText regLogin;
+    private CircleImageView uploadImage;
     private Button regBtn;
 
     public SignUpFragment() {
@@ -62,9 +72,18 @@ public class SignUpFragment extends Fragment {
         regMail = (EditText) view.findViewById(R.id.registerMail);
         regPass = (EditText) view.findViewById(R.id.registerPassword);
         regDesc = (EditText) view.findViewById(R.id.registerDesc);
-
+        regLastName = (EditText) view.findViewById(R.id.registerLastName);
+        regLogin = (EditText) view.findViewById(R.id.registerLogin);
+        uploadImage = (CircleImageView) view.findViewById(R.id.profile_image);
         regBtn = (Button) view.findViewById(R.id.btnRegister);
-
+        uploadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent selectPicIntent = new Intent(Intent.ACTION_PICK);
+                selectPicIntent.setType("image/*");
+                startActivityForResult(selectPicIntent, 12345);
+            }
+        });
         regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,38 +91,53 @@ public class SignUpFragment extends Fragment {
                 registerUser(regName.getText().toString(),
                              regMail.getText().toString(),
                              regPass.getText().toString(),
-                             regDesc.getText().toString());
+                             regDesc.getText().toString(),
+                             regLogin.getText().toString(),
+                             regLastName.getText().toString());
             }
         });
 
         return view;
     }
 
-    private void registerUser(final String userName, String mail, String pass, final String desc){
-
-        Call<RegisterRequestStatus> call = link.registerNewUser(userName, mail, pass, desc);
-        call.enqueue(new Callback<RegisterRequestStatus>() {
+    private void registerUser(final String userName, String mail, String pass, final String desc, String login, String lastName){
+        File file = new File(uploadImage.getTag().toString());
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("image", file.getName(), requestFile);
+        RequestBody fullName =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"), "Nick Patel");
+        Call<UserModel> call = link.register(mail, pass, userName, login, lastName, desc, body);
+        call.enqueue(new Callback<UserModel>() {
             @Override
-            public void onResponse(Call<RegisterRequestStatus> call, Response<RegisterRequestStatus> response) {
+            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
                 dialog.dismiss();
-                RegisterRequestStatus registerRequestStatus = response.body();
-              /*  Log.d("Log", registerRequestStatus.getStatusMessage());
-                if(registerRequestStatus.getStatusMessage().equals("User created")){
-                    UserInfoActivity userInfoActivity = new UserInfoActivity();
+                UserModel registerRequestStatus = response.body();
+                Log.d("RegToken", registerRequestStatus.getToken());
 
-                    Intent intent = new Intent(getContext(), UserInfoActivity.class);
-                    intent.putExtra("name", userName);
-                    intent.putExtra("desc", desc);
-
-                    startActivity(intent);
-                }*/
+                try {
+                }catch (Exception e){
+                    Log.d("ex", e.getMessage());
+                }
             }
 
             @Override
-            public void onFailure(Call<RegisterRequestStatus> call, Throwable t) {
+            public void onFailure(Call<UserModel> call, Throwable t) {
                 dialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 12345 && data != null)
+        {
+            Uri pickedImage = data.getData();
+            uploadImage.setImageURI(pickedImage);
+            uploadImage.setTag(pickedImage.toString());
+        }
     }
 
 }
