@@ -11,7 +11,7 @@ ADD CONSTRAINT XPKAlbums PRIMARY KEY (Album_ID);
 
 CREATE TABLE Albums_songs
 (
-	Album_Songs_ID       INT NOT NULL AUTO_INCRREMENT,
+	Album_Songs_ID       INT NOT NULL ,
 	Album_ID             INT NULL,
 	Song_ID              INT NULL
 );
@@ -21,7 +21,7 @@ ADD CONSTRAINT XPKAlbums_songs PRIMARY KEY (Album_Songs_ID);
 
 CREATE TABLE Artist
 (
-	Artist_ID            INT NOT NULL AUTO_INCRREMENT,
+	Artist_ID            INT NOT NULL ,
 	Artist_Site_Url      TEXT NULL,
 	Person_ID            INT NULL,
 	Artist_Name          TEXT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE Artist_Genres
 (
 	Genres_ID            INT NULL,
 	Artist_ID            INT NULL,
-	Artist_Genres_ID     INT NOT NULL AUTO_INCRREMENT
+	Artist_Genres_ID     INT NOT NULL
 );
 
 ALTER TABLE Artist_Genres
@@ -43,7 +43,7 @@ ADD CONSTRAINT XPKArtist_Genres PRIMARY KEY (Artist_Genres_ID);
 
 CREATE TABLE Artist_Groups
 (
-	Artist_Groups_ID     INT NOT NULL AUTO_INCRREMENT,
+	Artist_Groups_ID     INT NOT NULL ,
 	Artist_ID            INT NULL,
 	Group_ID             INT NULL
 );
@@ -53,7 +53,7 @@ ADD CONSTRAINT XPKArtist_Groups PRIMARY KEY (Artist_Groups_ID);
 
 CREATE TABLE Country
 (
-	Country_ID           INT NOT NULL AUTO_INCRREMENT,
+	Country_ID           INT NOT NULL ,
 	Country_Name         TEXT NULL
 );
 
@@ -62,7 +62,7 @@ ADD CONSTRAINT XPKCountry PRIMARY KEY (Country_ID);
 
 CREATE TABLE Genres
 (
-	Genres_ID            INT NOT NULL AUTO_INCRREMENT,
+	Genres_ID            INT NOT NULL ,
 	Genres_Name          TEXT NULL
 );
 
@@ -71,7 +71,7 @@ ADD CONSTRAINT XPKGenres PRIMARY KEY (Genres_ID);
 
 CREATE TABLE Groups
 (
-	Group_ID             INT NOT NULL AUTO_INCRREMENT,
+	Group_ID             INT NOT NULL,
 	Group_Name           TEXT NULL
 );
 
@@ -80,7 +80,7 @@ ADD CONSTRAINT XPKGroups PRIMARY KEY (Group_ID);
 
 CREATE TABLE Person_Folowers
 (
-	Person_Folowers_ID   INT NOT NULL AUTO_INCRREMENT,
+	Person_Folowers_ID   INT NOT NULL ,
 	Person_Folowers_List BLOB NULL,
 	Person_ID            INT NULL
 );
@@ -90,7 +90,7 @@ ADD CONSTRAINT XPKPerson_Folowers PRIMARY KEY (Person_Folowers_ID);
 
 CREATE TABLE Person_Subscribe
 (
-	Person_Subscribe_ID  INT NOT NULL AUTO_INCRREMENT,
+	Person_Subscribe_ID  INT NOT NULL ,
 	Person_Subscribe_List BLOB NULL,
 	Person_ID            INT NULL
 );
@@ -100,7 +100,7 @@ ADD CONSTRAINT XPKPerson_Subscribe PRIMARY KEY (Person_Subscribe_ID);
 
 CREATE TABLE Persons
 (
-	Person_ID            INT NOT NULL AUTO_INCRREMENT,
+	Person_ID            INT NOT NULL,
 	Person_LastName      TEXT NULL,
 	Person_FirstName     TEXT NULL,
 	Person_Email         TEXT NULL,
@@ -114,7 +114,7 @@ ADD CONSTRAINT XPKPersons PRIMARY KEY (Person_ID);
 
 CREATE TABLE Songs
 (
-	Song_ID              INT NOT NULL AUTO_INCRREMENT,
+	Song_ID              INT NOT NULL,
 	Song_Name            TEXT NULL,
 	Song_Description     TEXT NULL,
 	Song_Likes           TEXT NULL,
@@ -162,7 +162,7 @@ use focus777;
 
 
 CREATE TABLE `log` (
-`id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`id` INT( 11 ) UNSIGNED NOT NULL  PRIMARY KEY,
 `msg` VARCHAR( 255 ) NOT NULL,
 `time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 `row_id` INT( 11 ) NOT NULL
@@ -204,3 +204,9 @@ FOR EACH ROW
 BEGIN
 SET NEW.Person_Password = md5(NEW.Person_Password);
 END
+
+
+CREATE VIEW FeedSoungsView AS
+SELECT Song_ID, Song_Likes, Song_Name, Song_Listen, art.Artist_Name ,pl.Person_Login
+FROM Songs s, Albums_Songs as, Albums a, Artist
+WHERE Albums_Songs > (SELECT AVG(Song_Likes) FROM Songs)
